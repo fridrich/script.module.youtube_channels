@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.module.youtube_channels" name="YouTube Channels" version="0.1.0" provider-name="Alexander Seiler">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+    <import addon="plugin.video.youtube" version="6.2.2"/>
+    <import addon="script.module.simplecache" version="1.0.11"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib">
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB"></summary>
+    <summary lang="de_DE"></summary>
+    <description lang="en_GB"></description>
+    <description lang="de_DE"></description>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, June 2007</license>
+    <email>seileralex@gmail.com</email>
+    <source>https://github.com/goggle/script.module.youtube_channels</source>
+    <assets>
+        <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
