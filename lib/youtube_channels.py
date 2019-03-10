@@ -34,7 +34,6 @@ REAL_SETTINGS = xbmcaddon.Addon(id=ADDON_ID)
 ADDON_NAME = REAL_SETTINGS.getAddonInfo('name')
 ADDON_VERSION = REAL_SETTINGS.getAddonInfo('version')
 ICON = REAL_SETTINGS.getAddonInfo('icon')
-LANGUAGE = REAL_SETTINGS.getLocalizedString
 
 VIDEOS_PER_PAGE = 50
 
