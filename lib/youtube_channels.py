@@ -22,10 +22,7 @@
 import json
 import traceback
 
-import xbmc
-import xbmcgui
-import xbmcplugin
-import xbmcaddon
+from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon
 
 from youtube_plugin.kodion.utils import datetime_parser
 import youtube_requests
@@ -94,14 +91,12 @@ class YoutubeChannels(object):
         msg   -- the message to log
         level -- the logging level
         """
-        if isinstance(msg, str):
-            msg = msg.decode('utf-8')
         if self.debug:
             if level == xbmc.LOGERROR:
                 msg += ' ,' + traceback.format_exc()
         addon_id = self.plugin_id if self.plugin_id else ADDON_ID
         message = addon_id + '-' + '-' + msg
-        xbmc.log(msg=message.encode('utf-8'), level=level)
+        xbmc.log(msg=message, level=level)
 
     def build_channel_overview_menu(self, plugin_channel_url=None):
         """
