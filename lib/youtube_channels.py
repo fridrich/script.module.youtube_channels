@@ -19,14 +19,21 @@
 # along with script.module.youtube_channels.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import json
 import traceback
 
 from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon
 
 from youtube_plugin.kodion.utils import datetime_parser
 import youtube_requests
-from simplecache import SimpleCache
+
+import sys
+# NOTE: As soon as script.module.simplecache is Python 3 compatible,
+# we can remove the following condition and just import SimpleCache.
+# See https://github.com/kodi-community-addons/script.module.simplecache/pull/7
+if sys.version_info[0] >= 3:
+    from dummycache import SimpleCache
+else:
+    from simplecache import SimpleCache
 
 
 ADDON_ID = 'script.module.youtube_channels'
@@ -73,7 +80,8 @@ def try_get(dictionary, keys, data_type=CompatStr, default=''):
 
 
 class YoutubeChannels(object):
-    def __init__(self, plugin_handle, channel_ids, plugin_id=None, debug=False):
+    def __init__(self, plugin_handle, channel_ids,
+                 plugin_id=None, debug=False):
         self.handle = plugin_handle
         self.channel_ids = channel_ids
         self.plugin_id = plugin_id
@@ -118,7 +126,8 @@ class YoutubeChannels(object):
             for channel_id in self.channel_ids:
                 try:
                     channels.append(next(
-                        channel for channel in channels_unsorted if channel_id == channel.get('id')))
+                        channel for channel in channels_unsorted
+                        if channel_id == channel.get('id')))
                 except StopIteration:
                     pass
 
@@ -148,8 +157,7 @@ class YoutubeChannels(object):
             xbmcplugin.addDirectoryItem(
                 self.handle, url, list_item, isFolder=True)
 
-    # TODO: remove next_page_url
-    def build_newest_videos(self, page=1, next_page_url=None):
+    def build_newest_videos(self, page=1):
         """
         Builds a page containing the newest videos over all channels.
 
@@ -196,7 +204,8 @@ class YoutubeChannels(object):
         """
         channels = youtube_requests.get_channels(self.channel_ids)
         playlist_ids = [try_get(
-            ch, ('contentDetails', 'relatedPlaylists', 'uploads')) for ch in channels]
+                ch, ('contentDetails', 'relatedPlaylists', 'uploads')
+            ) for ch in channels]
         items = []
         for pid in playlist_ids:
             items += youtube_requests.get_playlist_items(pid)
@@ -220,7 +229,8 @@ class YoutubeChannels(object):
         for item in video_items:
             title = try_get(item, ('snippet', 'title'))
             description = try_get(item, ('snippet', 'description'))
-            thumbnail = try_get(item, ('snippet', 'thumbnails', 'maxres', 'url')) or\
+            thumbnail = try_get(item,
+                                ('snippet', 'thumbnails', 'maxres', 'url')) or\
                 try_get(item, ('snippet', 'thumbnails', 'high', 'url')) or\
                 try_get(item, ('snippet', 'thumbnails', 'standard', 'url')) or\
                 try_get(item, ('snippet', 'thumbnails', 'medium', 'url')) or\
@@ -259,7 +269,8 @@ class YoutubeChannels(object):
         page_token  -- the token of the page to display; an empty string
                        means that the first page will be displayed.
         """
-        self.log('build_channel_menu: channel_id = %s, page_token = %s' % (channel_id, page_token))
+        self.log('build_channel_menu: channel_id = %s, '
+                 'page_token = %s' % (channel_id, page_token))
         channel = youtube_requests.get_channels(channel_id)
         if channel and 'error' not in channel[0]:
             pid = try_get(channel[0], ('contentDetails',
@@ -268,7 +279,9 @@ class YoutubeChannels(object):
                 pid, page_token=page_token)
             next_page_token = try_get(items[-1], 'nextPageToken')
             video_ids = [
-                try_get(item, ('snippet', 'resourceId', 'videoId')) for item in items]
+                try_get(
+                    item, ('snippet', 'resourceId', 'videoId')
+                ) for item in items]
             vids = [vid for vid in video_ids if vid]
             self.build_video_menu(vids)
             return next_page_token
