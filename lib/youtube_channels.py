@@ -21,19 +21,15 @@
 
 import traceback
 
-from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon
+import xbmc
+import xbmcgui
+import xbmcplugin
+import xbmcaddon
 
 from youtube_plugin.kodion.utils import datetime_parser
 import youtube_requests
 
-import sys
-# NOTE: As soon as script.module.simplecache is Python 3 compatible,
-# we can remove the following condition and just import SimpleCache.
-# See https://github.com/kodi-community-addons/script.module.simplecache/pull/7
-if sys.version_info[0] >= 3:
-    from dummycache import SimpleCache
-else:
-    from simplecache import SimpleCache
+import simplecache
 
 
 ADDON_ID = 'script.module.youtube_channels'
@@ -44,14 +40,7 @@ ICON = REAL_SETTINGS.getAddonInfo('icon')
 
 VIDEOS_PER_PAGE = 50
 
-
-try:
-    CompatStr = unicode  # Python2
-except NameError:
-    CompatStr = str  # Python3
-
-
-def try_get(dictionary, keys, data_type=CompatStr, default=''):
+def try_get(dictionary, keys, data_type=str, default=''):
     """
     Accesses a nested dictionary in a save way.
 
@@ -87,7 +76,7 @@ class YoutubeChannels(object):
         self.plugin_id = plugin_id
         self.video_ids = []
 
-        self.cache = SimpleCache()
+        self.cache = simplecache.SimpleCache()
         self.debug = debug
 
     def log(self, msg, level=xbmc.LOGDEBUG):
