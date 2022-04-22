@@ -5,8 +5,7 @@
     <import addon="plugin.video.youtube" version="6.8.18+matrix.1"/>
     <import addon="script.module.simplecache" version="2.0.2"/>
   </requires>
-  <extension point="xbmc.python.module" library="lib">
-  </extension>
+  <extension point="xbmc.python.module" library="lib"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="en_GB">Helps you to include YouTube channels in a Kodi plugin.</summary>
     <description lang="en_GB">YouTube Channels offers helper function to include a list of different YouTube channels into your Kodi plugin.</description>
