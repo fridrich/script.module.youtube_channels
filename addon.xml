@@ -10,7 +10,7 @@
     <summary lang="en_GB">Helps you to include YouTube channels in a Kodi plugin.</summary>
     <description lang="en_GB">YouTube Channels offers helper function to include a list of different YouTube channels into your Kodi plugin.</description>
     <platform>all</platform>
-    <license>GNU GENERAL PUBLIC LICENSE. Version 3, June 2007</license>
+    <license>GPL-3.0-or-later</license>
     <email>seileralex@gmail.com</email>
     <source>https://github.com/goggle/script.module.youtube_channels</source>
     <assets>
